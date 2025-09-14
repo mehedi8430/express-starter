@@ -25,8 +25,6 @@ export const register = catchAsync(async (req: Request, res: Response) => {
     password,
   });
 
-  const token = generateToken(user._id.toString());
-
   sendResponse(res, 201, true, 'User registered successfully', {
     user: {
       id: user._id,
@@ -34,7 +32,6 @@ export const register = catchAsync(async (req: Request, res: Response) => {
       email: user.email,
       role: user.role,
     },
-    token,
   });
 });
 

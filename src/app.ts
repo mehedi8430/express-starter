@@ -30,6 +30,7 @@ const limiter = rateLimit({
     message: 'Too many requests from this IP, please try again later.',
   },
 });
+
 app.use('/api', limiter);
 
 // Body parsing middleware
@@ -54,7 +55,7 @@ if (process.env.NODE_ENV !== 'production') {
 app.use('/api/v1', routes);
 
 // 404 handler
-app.all('*', (req: Request, res: Response) => {
+app.use((req: Request, res: Response) => {
   res.status(404).json({
     success: false,
     message: `Route ${req.originalUrl} not found`,
