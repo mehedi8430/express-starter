@@ -4,8 +4,8 @@
     "module": "commonjs",
     "lib": ["ES2020"],
     "outDir": "dist",
-    "rootDir": "src",
-    "baseUrl": "./",
+    "rootDir": "./src",
+    "baseUrl": "src",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -23,14 +23,7 @@
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
     "paths": {
-      "@/*": ["src/*"],
-      "@/config/*": ["src/config/*"],
-      "@/controllers/*": ["src/controllers/*"],
-      "@/models/*": ["src/models/*"],
-      "@/routes/*": ["src/routes/*"],
-      "@/middleware/*": ["src/middleware/*"],
-      "@/utils/*": ["src/utils/*"],
-      "@/types/*": ["src/types/*"]
+      "@/*": ["*"]
     }
   },
   "include": ["src/**/*"],
