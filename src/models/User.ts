@@ -1,12 +1,14 @@
-import mongoose, { Document, Schema } from 'mongoose';
-import bcrypt from 'bcryptjs';
 import { IUser } from '@/types';
+import bcrypt from 'bcryptjs';
+import mongoose, { Model, Schema } from 'mongoose';
 
-export interface IUserDocument extends IUser, Document {
+interface IUserMethods {
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
-const userSchema = new Schema<IUserDocument>(
+type UserModel = Model<IUser, {}, IUserMethods>;
+
+const userSchema = new Schema<IUser, UserModel, IUserMethods>(
   {
     name: {
       type: String,
@@ -57,4 +59,5 @@ userSchema.methods.comparePassword = async function (
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-export default mongoose.model<IUserDocument>('User', userSchema);
+export type IUserDocument = mongoose.HydratedDocument<IUser, IUserMethods>;
+export default mongoose.model<IUser, UserModel>('User', userSchema);

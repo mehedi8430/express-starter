@@ -1,13 +1,21 @@
-import { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
 import User from '@/models/User';
-import { sendResponse, sendError } from '@/utils/apiResponse';
+import { sendError, sendResponse } from '@/utils/apiResponse';
 import catchAsync from '@/utils/catchAsync';
+import { Request, Response } from 'express';
+import jwt, { SignOptions } from 'jsonwebtoken';
 
 const generateToken = (id: string): string => {
-  return jwt.sign({ id }, process.env.JWT_SECRET as string, {
-    expiresIn: process.env.JWT_EXPIRE,
-  });
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error('JWT_SECRET is not defined');
+  }
+
+  const envExpires = process.env.JWT_EXPIRE;
+  const expiresIn: SignOptions['expiresIn'] = envExpires
+    ? (envExpires as unknown as SignOptions['expiresIn'])
+    : ('1d' as const);
+
+  return jwt.sign({ id }, secret, { expiresIn });
 };
 
 export const register = catchAsync(async (req: Request, res: Response) => {
